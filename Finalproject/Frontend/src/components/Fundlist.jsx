@@ -29,12 +29,16 @@ const Fundlist = ({ funds, setFunds }) => {
     return <>
      <ul className='list-group'>
      {funds.map(x=>(
-        <li className='list-group'>
+        <li className='list-group-item d-flex justify-content-between align-items-center '>
             <div>
              <h1>{x.name}</h1>
              <p>Type: {x.type} </p>
              <p>Amount: ${x.amount} </p>
              <p>Risk: {x.risklevel} </p>
+             <div>
+             {x.image && <img src={`http://localhost:5600/${x.image}`} alt="img" width={70} height={70}/>
+}
+             </div>
             </div>
             <div>
                 <button onClick={()=>hedit(x)} className='btn btn-info'>Edit</button>

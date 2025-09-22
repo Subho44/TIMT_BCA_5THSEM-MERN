@@ -3,18 +3,29 @@ import axios from 'axios'
 
 const Fundform = ({ onAdd }) => {
     const [form, setForm] = useState({ name: "", type: "", amount: "", risklevel: "medium" });
+    const [file, setFile] = useState(null);
 
     const hc = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
+    const hf = (e) => setFile(e.target.files[0] || null);
     const hs = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post('http://localhost:5600/api/funds', { ...form, amount: Number(form.amount) })
+            const fd = new FormData()
+            fd.append("name", form.name);
+            fd.append("type", form.type);
+            fd.append("amount", Number(form.amount));
+            fd.append("risklevel", form.risklevel);
+
+            if(file) fd.append("image",file);
+            const { data } = await axios.post('http://localhost:5600/api/funds',fd, {
+                headers:{"Content-Type":"multipart/form-data"}
+            })
             onAdd(data)
-            setForm({ name: "", type: "", amount: "", risklevel: "medium" })
+            setForm({ name: "", type: "", amount: "", risklevel: "medium" });
+            setFile(null);
         } catch (err) {
             console.error(err);
-            
+
         }
     }
     return <>
@@ -57,10 +68,18 @@ const Fundform = ({ onAdd }) => {
                     <option>high</option>
                 </select>
             </div>
+            <div className='form-group'>
+                <label>Image: </label>
+                <input
+                    type='file'
+                    onChange={hf}
+                    className='form-control'
+                />
+            </div>
 
-         <div className='mt-2'>
-          <button className='btn btn-dark'>Add Fund</button>
-         </div>
+            <div className='mt-2'>
+                <button type='submit' className='btn btn-dark'>Add Fund</button>
+            </div>
         </form>
     </>
 }

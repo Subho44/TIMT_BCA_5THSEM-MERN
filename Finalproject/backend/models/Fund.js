@@ -5,6 +5,7 @@ const fundshema = new mongoose.Schema({
     type: { type: String, required: true },
     amount: { type: Number, required: true },
     risklevel: { type: String,enum:['low','medium','high'], default:'medium' },
+    image:String
 
 });
 module.exports = mongoose.model("Fund",fundshema);

@@ -18,8 +18,12 @@ const Contact = () => {
       load()
     },[]);
   return <>
-    <Fundform/>
+    <Fundform onAdd={(f)=>setFunds((prv)=>[...prv,f])}/>
+    <div className='card p-3'>
+    <h4>Funds Details</h4>
     <Fundlist funds={funds} setFunds={setFunds}/>
+    </div>
+    
   </>
 }
 

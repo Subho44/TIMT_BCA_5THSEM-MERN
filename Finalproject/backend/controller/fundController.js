@@ -3,7 +3,16 @@ const Fund = require("../models/Fund");
 //insert
 exports.createfund = async(req,res)=>{
     try {
-        const fund = await Fund.create(req.body);
+        const fund = await Fund.create({
+            name:req.body.name,
+            type:req.body.type,
+            amount:req.body.amount,
+            risklevel:req.body.risklevel,
+            image:req.file ? req.file.path: "",
+            
+
+        });
+
         res.json(fund);
     } catch(err) {
         res.json(err);
